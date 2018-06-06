@@ -397,6 +397,97 @@ describe('RecipeManagementComponent', () => {
 
   //Adding, editing and removing recipes
   it('adding, editing and removing recipes', () => {
+    let showForm = fixture.debugElement.nativeElement.querySelector('#show-hide-form');
+    let addButton = fixture.debugElement.nativeElement.querySelector('#add');
+    let clearButton = fixture.debugElement.nativeElement.querySelector('#clear');
+    let deleteButton = fixture.debugElement.nativeElement.querySelector('#delete');
+    let updateButton = fixture.debugElement.nativeElement.querySelector('#update');
+    let initialRecipesLength = component.recipeList.length;
 
+    showForm.click();
+    fixture.detectChanges();
+
+    //First let's try to add a recipe
+    component.newRecipeName = "Tomato Cucumber Salad";
+    component.newRecipeIngredientsList = "1 cucumber, 1 tomato";
+    component.newRecipeInstructionsList = "chop up the tomato; " + 
+      "chop up the cucumber; mix in a bowl";
+    component.newRecipeEstimatedTime = -5;
+
+    addButton.click();
+    fixture.detectChanges();
+
+    //console.log(component.recipeList);
+    expect(component.recipeList.length).toBe(initialRecipesLength + 1);
+
+    expect(component.recipeList[2].name).toBe("Tomato Cucumber Salad");
+    expect(component.recipeList[2].ingredients.length).toBe(2);
+    expect(component.recipeList[2].ingredients[0].quantity).toBe(1);
+    expect(component.recipeList[2].ingredients[0].name).toBe("cucumber");
+    expect(component.recipeList[2].ingredients[1].quantity).toBe(1);
+    expect(component.recipeList[2].ingredients[1].name).toBe("tomato");
+    expect(component.recipeList[2].instructions.length).toBe(3);
+    expect(component.recipeList[2].instructions[0]).toBe("chop up the tomato");
+    expect(component.recipeList[2].instructions[1]).toBe("chop up the cucumber");
+    expect(component.recipeList[2].instructions[2]).toBe("mix in a bowl");
+    expect(component.recipeList[2].estimatedTime).toBe(0);
+
+    //Clear the form
+    clearButton.click();
+    fixture.detectChanges();
+
+    expect(component.newRecipeName).toEqual("");
+    expect(component.newRecipeIngredientsList).toEqual("");
+    expect(component.newRecipeInstructionsList).toEqual("");
+    expect(component.newRecipeEstimatedTime).toEqual(0);
+
+    //Select the newly created recipe
+    let radioButtons = fixture.debugElement.nativeElement.querySelectorAll('input[type="radio"]');
+    expect(radioButtons.length).toBe(initialRecipesLength + 1);
+    radioButtons[2].click();
+    fixture.detectChanges();
+    for(let i = 0; i < radioButtons.length; i++)
+    {
+      if(i == 2)
+      {
+        expect(radioButtons[i].checked).toBe(true);
+      }
+      else
+      {
+        expect(radioButtons[i].checked).toBe(false);
+      }
+    }
+
+    //Let's edit the selected recipe
+    component.newRecipeName = "Tomato No Cucumber Salad";
+    component.newRecipeIngredientsList = "1 tomato";
+    component.newRecipeInstructionsList = "chop up the tomato; " + 
+      "put in a bowl";
+    component.newRecipeEstimatedTime = 1;
+
+    updateButton.click();
+    fixture.detectChanges();
+
+    expect(component.recipeList.length).toBe(initialRecipesLength + 1);
+    //console.log(component.recipeList);
+    
+    expect(component.recipeList[2].name).toBe("Tomato No Cucumber Salad");
+    expect(component.recipeList[2].ingredients.length).toBe(1);
+    expect(component.recipeList[2].ingredients[0].quantity).toBe(1);
+    expect(component.recipeList[2].ingredients[0].name).toBe("tomato");
+    expect(component.recipeList[2].instructions.length).toBe(2);
+    expect(component.recipeList[2].instructions[0]).toBe("chop up the tomato");
+    expect(component.recipeList[2].instructions[1]).toBe("put in a bowl");
+    expect(component.recipeList[2].estimatedTime).toBe(1);
+    let editedRecipe = component.recipeList[2];
+    //Let's select the newly edited
+    radioButtons = fixture.debugElement.nativeElement.querySelectorAll('input[type="radio"]');
+    radioButtons[2].click();
+    fixture.detectChanges();
+    //And delete it
+    deleteButton.click();
+    fixture.detectChanges();
+    expect(component.recipeList.length).toBe(initialRecipesLength);
+    expect(component.recipeList.includes(editedRecipe)).toBe(false);
   });
 });
