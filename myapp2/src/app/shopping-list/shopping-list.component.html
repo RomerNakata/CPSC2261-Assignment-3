@@ -1,0 +1,30 @@
+<input type="button" value="Show Shopping List" (click)="showShoppingList()">
+<div *ngIf="displayShoppingList">
+  <h2>Shopping List for {{selectedRecipeName}}</h2>
+  <div *ngIf="recipeManagement.checkRecipeList[0].length > 0">
+    <h3>Available Ingredients:</h3>
+    <table>
+      <tr>
+        <th>Ingredient Name</th>
+        <th>Ingredient Quantity</th>
+      </tr>
+      <tr *ngFor="let availableIngredient of recipeManagement.checkRecipeList[0]">
+        <td>{{availableIngredient.name}}</td>
+        <td>{{availableIngredient.quantity}}</td>
+      </tr>
+    </table>
+  </div>
+  <div *ngIf="recipeManagement.checkRecipeList[1].length > 0">
+    <h3>Missing Ingredients:</h3>
+    <table>
+      <tr>
+        <th>Ingredient Name</th>
+        <th>Ingredient Quantity</th>
+      </tr>
+      <tr *ngFor="let missingIngredient of recipeManagement.checkRecipeList[1]">
+        <td>{{missingIngredient.name}}</td>
+        <td>{{missingIngredient.quantity}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
