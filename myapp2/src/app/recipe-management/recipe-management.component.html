@@ -1,0 +1,42 @@
+<h2> List of Recipes </h2>
+<table>
+  <tr>
+    <th></th>
+    <th>Name</th>
+    <th>Ingredients</th>
+    <th>Instructions</th>
+    <th>Estimated Time</th>
+  </tr>
+  <tr *ngFor="let recipe of recipeManagement.recipeList">
+    <td><input type="radio" name="recipe" (click)="recipeManagement.selectRecipe(recipe)"></td>
+    <td>{{recipe.name}}</td>
+    <td><ul><li *ngFor="let ingredient of recipe.ingredients">{{ingredient.quantity}} {{ingredient.name}}</li></ul></td>
+    <td><ul><li *ngFor="let instruction of recipe.instructions">{{instruction}}</li></ul></td>
+    <td>{{recipe.estimatedTime}}</td>
+  </tr>
+</table>
+<input type="button" value="Show/Hide Recipe Management Form" (click)="toggleNewRecipeForm()" id="show-hide-form">
+<br/><br/>
+<input type="button" value="Fill In Form With Selected Recipe" (click)="transferDataToForm()" id="fill-form">
+<br/><br/>
+<input type="button" value="Delete Selected Recipe" (click)="deleteSelectedRecipe()" id="delete">
+<div id="new-recipe-container" class="{{showNewRecipe?'':'hide' }}">
+  <div name="error-message-container">{{errorMessage}}</div>
+  <label>Name: </label><br/>
+  <input type="text" name="new-recipe-name" size="28" [(ngModel)]="newRecipeName" id="new-recipe-name">
+  <br/>
+  <label>Ingredients List (comma separated): </label><br/>
+  <textarea name="new-ingredients-list" class="new-ingredients-list" [(ngModel)]="newRecipeIngredientsList"
+  placeholder="3 carrots, 5 oranges, 6 olives" cols="30" rows="4"></textarea>
+  <br/>
+  <label>Instructions List (semicolon separated): </label><br/>
+  <textarea name="new-instructions-list" class="new-instructions-list" [(ngModel)]="newRecipeInstructionsList"
+  placeholder="instruction 1; instruction 2" cols="30" rows="4"></textarea>
+  <br/>
+  <label>Estimated Time (in minutes): </label><br/>
+  <input type="number" name="new-recipe-estimated-time" [(ngModel)]="newRecipeEstimatedTime" min="1">
+  <br/><br/>
+  <input type="button" value="Add New Recipe" (click)="manageRecipe()" id="add"><br/><br/>
+  <input type="button" value="Update Selected Recipe" (click)="manageRecipe(true)" id="update"><br/><br/>
+  <input type="button" value="Clear Form" (click)="clearNewRecipeForm()" id="clear"><br/>
+</div>
