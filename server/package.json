@@ -2,7 +2,7 @@
   "name": "recipes_server",
   "version": "1.0.0",
   "description": "",
-  "main": "server.ts",
+  "main": "server.js",
   "scripts": {
     "test": " nodemon --exec jasmine *.spec.js",
     "build": "tsc -p .",
