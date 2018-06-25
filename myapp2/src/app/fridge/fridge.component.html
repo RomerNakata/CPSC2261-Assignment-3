@@ -1,0 +1,23 @@
+<h2>Fridge Contents:</h2>
+<form (change)="updateSelection(fridgeOptions)" #fridgeOptions>
+  <table>
+    <tr>
+      <th></th>
+      <th>Ingredient Name</th>
+      <th>Ingredient Quantity</th>
+    </tr>
+    <tr *ngFor="let ingredient of recipeManagement.fridge.contents">
+      <td><input type="checkbox" class="fridge-ingredient"></td>
+      <td>{{ingredient.name}}</td>
+      <td>{{ingredient.quantity}}</td>
+    </tr>
+  </table>
+  <input type="button" value="Remove Selected Ingredients" id="remove-from-fridge" 
+    (click)="removeFromFridge()">
+  <br/>
+  <h3>New Ingredient</h3>
+  <label>Ingredient Name: </label><input type="text" id="newFridgeIngredientName"><br/>
+  <label>Ingredient Quantity: </label><input type="number" min="0" id="newFridgeIngredientQuantity"><br/>
+  <input type="button" value="Add New Ingredient" id="add-ingredient-to-fridge" 
+    (click)="addToFridge(fridgeOptions)">
+</form>
